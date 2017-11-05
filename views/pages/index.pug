@@ -1,0 +1,101 @@
+extends ../template 
+
+block variables
+    - var title = "Добро пожаловать"
+
+block content
+    .header-main-container
+        .parallax#parallax
+            .parallax__layer
+                img(src="assets/images/layer5.jpg").parallax__img
+            .parallax__layer
+                img(src="assets/images/layer8.png").parallax__img
+            .parallax__layer
+                img(src="assets/images/layer7.png").parallax__img
+            .parallax__layer.cloud
+                img(src="assets/images/cloud-4.png").parallax__img.cloud-4
+            .parallax__layer.cloud-group-2  
+                img(src="assets/images/cloud-4.png").parallax__img.cloud-4   
+            .parallax__layer
+                img(src="assets/images/layer6.png").parallax__img
+            .parallax__layer
+                img(src="assets/images/layer4.png").parallax__img
+            .parallax__layer.cloud
+                img(src="assets/images/sky.png").parallax__img.cloud-7
+            .parallax__layer.cloud-group-2  
+                img(src="assets/images/sky.png").parallax__img.cloud-7  
+            .parallax__layer
+                img(src="assets/images/layer2.png").parallax__img
+            .parallax__layer
+                img(src="assets/images/layer1.png").parallax__img
+            .parallax__layer.cloud
+                img(src="assets/images/clouds.png").parallax__img.cloud-10
+            .parallax__layer.cloud-group-2  
+                img(src="assets/images/clouds.png").parallax__img.cloud-10   
+        .header-content    
+            header.header-content__top.header-content__top_main
+                a#authorization(href="#").btn.btn-autorization Авторизоваться       
+            .welcome
+                .welcome__main        
+                    #auth-form.welcome-form
+                        .welcome-form__front
+                            .user-info
+                                .user
+                                    .user__picture
+                                            img(src="assets/images/ava.jpg").user__img
+                                    .user__name Каринэ Гюлумян
+                                    .user__describe Личный сайт разработчика
+                                ul.socials
+                                    li.socials__item: a.socials__link(href="https://vk.com/gkarine" target="_blank"): +icon('vk' ,"", "socials")
+                                    li.socials__item: a.socials__link(href="https://github.com/Karine91" target="_blank"): +icon('github' ,"", "socials")
+                                    li.socials__item: a.socials__link(href="#" target="_blank"): +icon('in' ,"", "socials")
+                            ul.navigation
+                                li.navigation__item: a(href="/works").navigation__link Мои работы
+                                li.navigation__item: a(href="/about").navigation__link Обо мне
+                                li.navigation__item: a(href="/blog").navigation__link Блог
+                        .welcome-form__back
+                            .user-info
+                                .welcome-form__title
+                                    h2.heading-2.heading-2_offset-no Авторизуйтесь
+                                .form
+                                    form(action="/" name="form_auth" method="POST")
+                                        .form__field
+                                            label.form__label
+                                                +icon('login' ,"", "form")
+                                            input#login(type="text", name="login" placeholder="Логин").form__input
+                                        .form__field
+                                            label.form__label
+                                                +icon('password' ,"", "form")
+                                            input#password(type="password", name="password" placeholder="Пароль").form__input
+                                        .checkbox.no-robot
+                                            .checkbox__item
+                                                input(id="no_robot" type="checkbox" name="no_robot").checkbox__input
+                                                label(for="no_robot" class="").checkbox_label
+                                                    +icon('check' ,"form__icon_check", "form")
+                                            label(for="no_robot" class="").form-label_text Я человек
+                                        .confim
+                                            .confim__question Вы точно не робот?
+                                            .comfim__radio
+                                                .radio-group
+                                                    .radio
+                                                        input.form_radio(type="radio" name="confim_robot" value="1" id="no-robot")
+                                                        label(for="no-robot").radio__label
+                                                        label(for="no-robot").form-label_text Да
+                                                .radio-group
+                                                    .radio
+                                                        input.form_radio(type="radio" name="confim_robot" value="0" id="robot")
+                                                        label(for="robot").radio__label
+                                                        label(for="robot").form-label_text Не уверен
+                            ul.navigation
+                                li.navigation__item: a#onmain(href="#").navigation__link На главную
+                                li.navigation__item: button(type="submit")#submitAuth.navigation__link.form-btn Войти
+                                            
+                .welcome__bottom
+                    .copyright © Каринэ Гюлумян | создано с любовью в LoftSchool | 2017
+block footer
+block menu                            
+
+            
+            
+            
+            

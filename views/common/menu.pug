@@ -1,0 +1,11 @@
+.page-menu-wrapper        
+    ul.page-menu
+        - 
+            var pageMenu = [
+                ["Мои работы", "/works"],
+                ["Блог", "/blog"],
+                ["Обо мне", "/about"],
+                ["Авторизация", "/"]
+            ]
+        each item in pageMenu
+            li.page-menu__item: a(href=item[1]).heading-1.page-menu__link #{item[0]} 
