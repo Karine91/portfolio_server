@@ -4,7 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const passport = require('passport');
 require('./api/models/db');
+
+const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 var index = require('./routes/index');
 var indexApi = require('./api/routes/index');
@@ -21,7 +26,24 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(session({
+  secret: 'loftschool',
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    maxAge: null
+  },
+  saveUninitialized: false,
+  resave: false,
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+require('./config/config-passport');
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', index);
 app.use('/api', indexApi);

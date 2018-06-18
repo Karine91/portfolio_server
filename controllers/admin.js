@@ -8,9 +8,6 @@ const apiOptions = {
 }
 
 module.exports.getAdminpage = function (req, res) {
-    if(!req.body.login || !req.body.password){
-        return res.redirect('/?msg=Заполните пожалуйста все поля');
-      }
     res.render('admin/admin', { 
         title: 'Админ панель' ,
         msgfile: req.query.msgfile,
