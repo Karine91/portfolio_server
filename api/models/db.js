@@ -4,7 +4,7 @@ const config = require('../../config');
 mongoose.Promise = global.Promise;
 
 mongoose
-.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`, {useMongoClient: true})
+.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`)
 .catch(e => {
   console.error(e);
   throw e;
@@ -43,3 +43,5 @@ process.on('SIGINT', function () {
 require('./blog');
 require('./works');
 require('./user');
+require('./skills');
+require('./skillsType');

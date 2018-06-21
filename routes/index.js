@@ -18,7 +18,6 @@ const ctrlAbout = require('../controllers/about');
 
 /* GET home page. */
 router.get('/', ctrlWelcome.getIndex);
-router.post('/', ctrlWelcome.authorization);
 
 router.get('/blog', ctrlBlog.getBlog);
 
