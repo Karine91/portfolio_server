@@ -26,7 +26,7 @@ module.exports.addSkill = function (req, res){
             .then(item => {
             return res
                 .status(201)
-                .json({status: 'Запись успешно добавлена'});
+                .json({status: 'Запись успешно добавлена', item: item.skills[item.skills.length -1]});
             }, err => {
             //если есть ошибки, то получаем их список и так же передаем
             const error = Object

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 module.exports.getSkillsTypes = function (req, res){
     const skillsTypes = mongoose.model('skillsType');
     skillsTypes.find().then(items => {
-        res.status(200).json({skillsTypes: items.length ? items : []});
+        res.status(200).json(items.length ? items : []);
     });
 }
 
