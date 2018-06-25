@@ -21,18 +21,18 @@ router.post('/user', ctrlUser.isAuth);
 
 router.get('/blog', ctrlBlog.getArticles);
 router.post('/blog', isLoggedIn, ctrlBlog.createArticle);
-router.put('/blog/:id',ctrlBlog.editArticle);
+router.patch('/blog/:id',ctrlBlog.editArticle);
 router.delete('/blog/:id', isLoggedIn, ctrlBlog.deleteArticle);
 
 router.get('/skills', ctrlSkills.getSkills);
 router.post('/skills', ctrlSkills.addSkill);
-router.put('/skills/:id', ctrlSkills.editSkill);
+router.patch('/skills/:id', ctrlSkills.editSkill);
 router.delete('/skills/:id', ctrlSkills.deleteSkill);
 
 router.get('/skills-types', ctrlSkillsTypes.getSkillsTypes);
 router.post('/skills-types', ctrlSkillsTypes.addSkillType);
-router.put('/skills-types/:id', isLoggedIn, ctrlSkillsTypes.editSkillType);
-router.delete('/skills-types/:id', isLoggedIn, ctrlSkillsTypes.deleteSkillType);
+router.patch('/skills-types/:id', ctrlSkillsTypes.editSkillType);
+router.delete('/skills-types/:id', ctrlSkillsTypes.deleteSkillType);
 
 router.get('/works', ctrlWorks.getWorks); //переделать загрузку картинок
 router.post('/works', ctrlWorks.addWork);

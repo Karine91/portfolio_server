@@ -15,10 +15,10 @@ module.exports.addSkill = function (req, res){
     let item = new ModelSkills({
         name: req.body.name,
         percents: req.body.percents,
-        type: req.body.type
+        type_id: req.body.type_id
     });
     //сохраняем запись в базе
-    mongoose.model('skillsType').findOne({type: req.body.type}, (err, skilltype) => {
+    mongoose.model('skillsType').findById(req.body.type_id, (err, skilltype) => {
         if(skilltype){
            skilltype.skills.push(item); 
         }
@@ -26,7 +26,7 @@ module.exports.addSkill = function (req, res){
             .then(item => {
             return res
                 .status(201)
-                .json({status: 'Запись успешно добавлена', item: item.skills[item.skills.length -1]});
+                .json({status: 'Запись успешно добавлена', item: item.skills[item.skills.length -1], parent_id: item._id});
             }, err => {
             //если есть ошибки, то получаем их список и так же передаем
             const error = Object
@@ -51,13 +51,8 @@ module.exports.editSkill = function (req, res) {
 
     let skillsTypeModel = mongoose.model('skillsType');
     var ObjectId = mongoose.Types.ObjectId;
-    let data = {
-        _id: ObjectId(id),
-        name: req.body.name,
-        percents: req.body.percents,
-        type: req.body.type
-    };
-    skillsTypeModel.update({'skills._id': ObjectId(id)} , {$set: {'skills.$': data}}).then((item) => {
+
+    skillsTypeModel.update({'skills._id': ObjectId(id)} , {$set: {'skills.$.percents': req.body.percents}}).then((item) => {
             if (!!item) {
                 res
                 .status(200)

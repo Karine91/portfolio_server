@@ -4,11 +4,6 @@ const mongoose = require('mongoose');
 const ModelSkills = require('./skills'),
   Schema = mongoose.Schema,
   TypeOfSkillsSchema = new Schema({
-    type: {
-      type: Number,
-      unique: true,
-      required: true
-    },
     name: {
         type: String
     },

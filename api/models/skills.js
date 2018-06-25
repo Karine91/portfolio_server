@@ -8,11 +8,8 @@ const Schema = mongoose.Schema,
     },
     percents:{
         type: String,
-    },
-    type: {
-      type: Number
     }
-  });
+  }, {autoIndex: false});
 
 //просим mongoose сохранить модель для ее дальнейшего использования
 mongoose.model('skills', SkillsSchema);
