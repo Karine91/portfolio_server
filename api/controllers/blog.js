@@ -21,7 +21,7 @@ module.exports.createArticle = function (req, res){
   let item = new Model({
     name: req.body.name,
     date: new Date(req.body.date),
-    body: req.body.text
+    body: req.body.body
   });
   //сохраняем запись в базе
   item
@@ -52,7 +52,7 @@ module.exports.editArticle = function (req, res) {
     let data = {
         name: req.body.name,
         date: new Date(req.body.date),
-        body: req.body.text
+        body: req.body.body
     };
 
     const Model = mongoose.model('blog');
