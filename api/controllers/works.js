@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const formidable = require('formidable');
+const nodemailer = require('nodemailer');
+const config = require('../../config.json');
 
 module.exports.getWorks = function (req, res){
     const works = mongoose.model('works');
@@ -44,9 +46,13 @@ module.exports.addWork = function (req, res){
         }
         let dir = fileName.substr(fileName.indexOf('\\'));
         const Model = mongoose.model('works');
+        if(fields.link.indexOf('http://') == -1 && fields.link.indexOf('https://') == -1) {
+          fields.link = 'http://' + fields.link;
+        }
         let item = new Model({
           name: fields.name,
           technology: fields.tech,
+          link: fields.link,
           picture: dir
         });
         //сохраняем запись в базе
@@ -93,9 +99,13 @@ module.exports.editWork = function (req, res){
         .status(400)
         .json({status: 'Не указано описание картинки!'});
     }
+    if(fields.link.indexOf('http://') == -1 && fields.link.indexOf('https://') == -1) {
+      fields.link = 'http://' + fields.link;
+    }
     let data = {
       name: fields.name,
       technology: fields.tech,
+      link: fields.link
     }
     const Model = mongoose.model('works');
     Model
@@ -177,4 +187,37 @@ module.exports.deleteWork = function (req, res) {
               status: 'При удалении записи произошла ошибка: ' + err
           });
       });
+}
+
+module.exports.sendEmail = function (req, res) {
+  if(!req.body.name || !req.body.email || !req.body.message){
+    return res
+      .status(400)
+      .json({
+        status: 'Заполните пожалуйста все поля'
+      });
+  }
+  const transporter = nodemailer.createTransport(config.mail.smtp);
+  const mailOptions = {
+    from: `"${req.body.name}" <${req.body.email}>`,
+    to: config.mail.smtp.auth.user,
+    subject: config.mail.subject,
+    text: req.body.message.trim().slice(0,500) + `\n Отправлено с: <${req.body.email}>` 
+  }
+  transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+      return res
+        .status(404)
+        .json({
+          status: 'error',
+          message: 'При отправке письма произошла ошибка' + error
+        });
+    }
+    return res
+      .status(200)
+      .json({
+        status: 'ok',
+        message: 'Ваше сообщение успешно отправлено!'
+      });
+  });
 }

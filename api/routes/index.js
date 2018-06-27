@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 function isLoggedIn(req, res, next) {
-  // if (req.isAuthenticated()) {
-  //   return next();
-  // }
-  // res
-  //   .status(401)
-  //   .send('Авторизируйтесь');
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res
+    .status(401)
+    .redirect('/');
   return next();
 }
 
@@ -37,6 +37,7 @@ router.delete('/skills-types/:id', isLoggedIn, ctrlSkillsTypes.deleteSkillType);
 
 router.get('/works', ctrlWorks.getWorks);
 router.post('/works', isLoggedIn, ctrlWorks.addWork);
+router.post('/contact', ctrlWorks.sendEmail);
 router.patch('/works/:id', isLoggedIn, ctrlWorks.editWork);
 router.delete('/works/:id', isLoggedIn, ctrlWorks.deleteWork);
 

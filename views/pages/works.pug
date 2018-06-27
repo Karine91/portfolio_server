@@ -52,7 +52,7 @@ block content
                                 h2.heading-2.caption__text-animate= item.name
                             .caption__technology= item.tech
                             .caption__link
-                                a(href="#").btn.caption__btn
+                                a(href=item.link target="_blank").btn.caption__btn
                                     +icon('link' ,"", "works")
                                     | Посмотреть сайт
                     else
@@ -61,7 +61,7 @@ block content
                                 h2.heading-2.caption__text-animate= item.name
                             .caption__technology= item.technology
                             .caption__link
-                                a(href="#").btn.caption__btn
+                                a(href=item.link target="_blank").btn.caption__btn
                                     +icon('link' ,"", "works")
                                     | Посмотреть сайт
             ul.slider-view

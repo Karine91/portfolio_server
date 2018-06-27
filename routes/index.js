@@ -7,7 +7,7 @@ function isLoggedIn(req, res, next) {
   }
   res
     .status(401)
-    .send('Авторизируйтесь');
+    .redirect('/');
 }
 
 const ctrlWelcome = require('../controllers/welcome');
@@ -20,7 +20,6 @@ const ctrlAbout = require('../controllers/about');
 router.get('/', ctrlWelcome.getIndex);
 router.get('/blog', ctrlBlog.getBlog);
 router.get('/works', ctrlWorks.getWorks);
-router.post('/contact', ctrlWorks.sendEmail);
 router.get('/about', ctrlAbout.getAbout);
 router.get('/admin', isLoggedIn, ctrlAdmin.getAdminpage);
 

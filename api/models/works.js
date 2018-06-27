@@ -10,6 +10,9 @@ const mongoose = require('mongoose'),
     technology:{
         type: String,
     },
+    link: {
+      type: String
+    },
     picture: {
       type: String
     }
