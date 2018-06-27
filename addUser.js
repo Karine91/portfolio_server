@@ -8,10 +8,10 @@
 const mongoose = require('mongoose');
 const readline = require('readline');
 const rl = readline.createInterface({input: process.stdin, output: process.stdout});
-const config = require('./config');
+
 mongoose.Promise = global.Promise;
 mongoose
-  .connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`, {useMongoClient: true})
+  .connect(process.env.MONGOLAB_URI)
   .catch(e => {
     console.error(e);
     throw e;

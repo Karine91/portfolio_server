@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const formidable = require('formidable');
 const nodemailer = require('nodemailer');
-const config = require('../../config.json');
 
 module.exports.getWorks = function (req, res){
     const works = mongoose.model('works');
@@ -208,7 +207,7 @@ module.exports.sendEmail = function (req, res) {
   });
   const mailOptions = {
     from: `"${req.body.name}" <${req.body.email}>`,
-    to: config.mail.smtp.auth.user,
+    to: process.env.MAIL_USER,
     subject: 'Сообщение с сайта портфолио',
     text: req.body.message.trim().slice(0,500) + `\n Отправлено с: <${req.body.email}>` 
   }
