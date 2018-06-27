@@ -1,6 +1,6 @@
 const http = require('request');
 const apiOptions = {
-  server: "http://localhost:3000"
+  server: "https://karine-portfolio.herokuapp.com"
 };
 
 module.exports.getIndex =  function(req, res) {
