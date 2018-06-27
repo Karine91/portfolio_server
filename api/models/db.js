@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const config = require('../../config');
 
 mongoose.Promise = global.Promise;
 
 mongoose
-.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`)
+.connect(process.env.MONGOLAB_URI)
 .catch(e => {
   console.error(e);
   throw e;
@@ -13,7 +12,7 @@ mongoose
 mongoose
 .connection
 .on('connected', function () {
-  console.log(`Mongoose default connection open mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
+  console.log(`Mongoose default connection open mongodb://`);
 });
 
 // If the connection throws an error

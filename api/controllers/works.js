@@ -197,11 +197,19 @@ module.exports.sendEmail = function (req, res) {
         status: 'Заполните пожалуйста все поля'
       });
   }
-  const transporter = nodemailer.createTransport(config.mail.smtp);
+  const transporter = nodemailer.createTransport({
+    "host": smtp.mail.ru,
+    "port": 465,
+    "secure": true,
+    "auth": {
+      "user": process.env.MAIL_USER,
+      "pass": process.env.MAIL_PASS
+    }
+  });
   const mailOptions = {
     from: `"${req.body.name}" <${req.body.email}>`,
     to: config.mail.smtp.auth.user,
-    subject: config.mail.subject,
+    subject: 'Сообщение с сайта портфолио',
     text: req.body.message.trim().slice(0,500) + `\n Отправлено с: <${req.body.email}>` 
   }
   transporter.sendMail(mailOptions, function(error, info){
