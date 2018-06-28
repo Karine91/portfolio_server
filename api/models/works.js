@@ -13,8 +13,8 @@ const mongoose = require('mongoose'),
     link: {
       type: String
     },
-    picture: {
-      type: String
+    picture:{
+      data: Buffer, contentType: String
     }
   });
 

@@ -113,7 +113,7 @@ module.exports.editWork = function (req, res){
         if(files.file){
           let fileName;
           fileName = path.join(upload, files.file.name);
-          console.log('upload avatar');
+          console.log('upload avatar', fileName);
           fs.rename(files.file.path, fileName, function (err) {
             if (err) {
                 console.log(err);
@@ -121,6 +121,7 @@ module.exports.editWork = function (req, res){
                 fs.rename(files.file.path, fileName);
             }
             let dir = fileName.substr(fileName.indexOf('\\'));
+            console.log(dir);
             let pic = {
               picture: dir
             };
