@@ -37,13 +37,14 @@ module.exports.addWork = function (req, res){
       }
       fileName = path.join(upload, files.file.name);
       console.log(files.file.path, fileName);
-      fs.rename(files.file.path, fileName, function (err) {
-        if (err) {
-            console.log(err);
-            fs.unlink(fileName);
-            fs.rename(files.file.path, fileName);
+      fs.readFile(files.file.path, function (err, data) {
+        if(err) {
+          console.log(err);
         }
-        let dir = fileName.substr(fileName.indexOf('\\'));
+        let pic = {
+            data, 
+            contentType: 'image/jpg'
+        };
         const Model = mongoose.model('works');
         if(fields.link.indexOf('http://') == -1 && fields.link.indexOf('https://') == -1) {
           fields.link = 'http://' + fields.link;
@@ -52,7 +53,7 @@ module.exports.addWork = function (req, res){
           name: fields.name,
           technology: fields.tech,
           link: fields.link,
-          picture: dir
+          picture: pic
         });
         //сохраняем запись в базе
         item
@@ -111,20 +112,28 @@ module.exports.editWork = function (req, res){
       .findByIdAndUpdate(id, {$set: data}, { new: true } )
       .then(item => {
         if(files.file){
-          let fileName;
-          fileName = path.join(upload, files.file.name);
-          console.log('upload avatar', fileName);
-          fs.rename(files.file.path, fileName, function (err) {
-            if (err) {
+          
+          // let fileName;
+          // fileName = path.join(upload, files.file.name);
+          // console.log('upload avatar', fileName);
+          // fs.rename(files.file.path, fileName, function (err) {
+          //   if (err) {
+          //       console.log(err);
+          //       fs.unlink(fileName);
+          //       fs.rename(files.file.path, fileName);
+          //   }
+          //   let dir = fileName.substr(fileName.indexOf('\/'));
+          //   console.log(dir);
+            fs.readFile(files.file.path, function (err, data) {
+              if(err) {
                 console.log(err);
-                fs.unlink(fileName);
-                fs.rename(files.file.path, fileName);
-            }
-            let dir = fileName.substr(fileName.indexOf('\/'));
-            console.log(dir);
-            let pic = {
-              picture: fileName
-            };
+              }
+              let pic = {
+                picture: {
+                  data, 
+                  contentType: 'image/jpg'
+                }
+              };
             //сохраняем запись в базе
             Model
               .findByIdAndUpdate(id, {$set: pic}, { new: true })

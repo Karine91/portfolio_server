@@ -53,11 +53,11 @@ app.use(function(req, res, next) {
   next();
 });
 
-// app.use(multer({ dest: './public/upload/', 
-//   rename: function (fieldname, fielname) {
-//     return filename;
-//   }
-// }));
+app.use(multer({ dest: './public/upload/', 
+  rename: function (fieldname, fielname) {
+    return filename;
+  }
+}));
 
 app.use('/', index);
 app.use('/api', indexApi);
