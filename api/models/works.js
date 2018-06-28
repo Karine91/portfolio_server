@@ -14,9 +14,9 @@ const mongoose = require('mongoose'),
       type: String
     },
     picture:{
-      data: Buffer, contentType: String
+      type: String
     }
   });
-
+// data: Buffer, contentType: String
 //просим mongoose сохранить модель для ее дальнейшего использования
 mongoose.model('works', WorksSchema);

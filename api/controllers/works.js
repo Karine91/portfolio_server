@@ -120,7 +120,7 @@ module.exports.editWork = function (req, res){
                 fs.unlink(fileName);
                 fs.rename(files.file.path, fileName);
             }
-            let dir = fileName.substr(fileName.indexOf('/'));
+            let dir = fileName.substr(fileName.indexOf('\/'));
             console.log(dir);
             let pic = {
               picture: fileName
