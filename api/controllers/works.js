@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
-const formidable = require('formidable');
 const nodemailer = require('nodemailer');
+const multer = require('multer');
+const upload = multer({dest: 'public/upload'}).single('file');
 
 module.exports.getWorks = function (req, res){
     const works = mongoose.model('works');
@@ -13,31 +14,27 @@ module.exports.getWorks = function (req, res){
 
 module.exports.addWork = function (req, res){
     //создаем новую запись блога и передаем в нее поля из формы
-    let form = new formidable.IncomingForm();
-    let upload = 'public/upload';
-    let fileName;
+    let uploadDir = 'public/upload';
 
-    if (!fs.existsSync(upload)) {
-        fs.mkdirSync(upload);
+    if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir);
     }
-
-    form.uploadDir = path.join(process.cwd(), upload);
     
-    form.parse(req, function(err, fields, files) {
+    upload(req, res, function (err) {
       if (err) {
         return res
           .status(400)
           .json({status: 'Не удалось загрузить картинку'});
       }
-      if (!fields.name) {
-        fs.unlink(files.file.path);
+      if (!req.body.name) {
+        // fs.unlink(req.file.path);
         return res
           .status(400)
           .json({status: 'Не указано описание картинки!'});
       }
-      fileName = path.join(upload, files.file.name);
-      console.log(files.file.path, fileName);
-      fs.readFile(files.file.path, function (err, data) {
+      
+      console.log(req.file.path);
+      fs.readFile(req.file.path, function (err, data) {
         if(err) {
           console.log(err);
         }
@@ -46,13 +43,13 @@ module.exports.addWork = function (req, res){
             contentType: 'image/jpg'
         };
         const Model = mongoose.model('works');
-        if(fields.link.indexOf('http://') == -1 && fields.link.indexOf('https://') == -1) {
-          fields.link = 'http://' + fields.link;
+        if(req.body.link.indexOf('http://') == -1 && req.body.link.indexOf('https://') == -1) {
+          req.body.link = 'http://' + req.body.link;
         }
         let item = new Model({
-          name: fields.name,
-          technology: fields.tech,
-          link: fields.link,
+          name: req.body.name,
+          technology: req.body.tech,
+          link: req.body.link,
           picture: pic
         });
         //сохраняем запись в базе
@@ -82,36 +79,35 @@ module.exports.addWork = function (req, res){
 
 module.exports.editWork = function (req, res){
   //создаем новую запись блога и передаем в нее поля из формы
-  let form = new formidable.IncomingForm();
+
   const id = req.params.id;
-  let upload = 'public/upload';
-  form.uploadDir = path.join(process.cwd(), upload);
-  form.parse(req, function(err, fields, files) {
-    console.log(fields, files);
+
+  upload(req, res, function (err) {
+    console.log(req.body, req.file);
     if (err) {
       return res
         .status(400)
         .json({status: 'Не удалось загрузить картинку'});
     }
-    if (!fields.name) {
-      fs.unlink(files.file.path);
+    if (!req.body.name) {
+      // fs.unlink(req.file.path);
       return res
         .status(400)
         .json({status: 'Не указано описание картинки!'});
     }
-    if(fields.link.indexOf('http://') == -1 && fields.link.indexOf('https://') == -1) {
-      fields.link = 'http://' + fields.link;
+    if(req.body.link.indexOf('http://') == -1 && req.body.link.indexOf('https://') == -1) {
+      req.body.link = 'http://' + req.body.link;
     }
     let data = {
-      name: fields.name,
-      technology: fields.tech,
-      link: fields.link
+      name: req.body.name,
+      technology: req.body.tech,
+      link: req.body.link
     }
     const Model = mongoose.model('works');
     Model
       .findByIdAndUpdate(id, {$set: data}, { new: true } )
       .then(item => {
-        if(files.file){
+        if(req.file){
           
           // let fileName;
           // fileName = path.join(upload, files.file.name);
@@ -124,7 +120,7 @@ module.exports.editWork = function (req, res){
           //   }
           //   let dir = fileName.substr(fileName.indexOf('\/'));
           //   console.log(dir);
-            fs.readFile(files.file.path, function (err, data) {
+            fs.readFile(req.file.path, function (err, data) {
               if(err) {
                 console.log(err);
               }

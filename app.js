@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const passport = require('passport');
 require('./api/models/db');
-var multer = require('multer');
 
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -53,11 +52,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(multer({ dest: './public/upload/', 
-  rename: function (fieldname, fielname) {
-    return filename;
-  }
-}));
 
 app.use('/', index);
 app.use('/api', indexApi);
