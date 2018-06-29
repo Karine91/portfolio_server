@@ -28,13 +28,10 @@ module.exports.addWork = function (req, res){
           .json({status: 'Не удалось загрузить картинку'});
       }
       if (!req.body.name) {
-        // fs.unlink(req.file.path);
         return res
           .status(400)
           .json({status: 'Не указано описание картинки!'});
       }
-      
-      console.log(req.file.path);
       fs.readFile(req.file.path, function (err, data) {
         if(err) {
           console.log(err);
@@ -82,7 +79,6 @@ module.exports.editWork = function (req, res){
   const id = req.params.id;
 
   upload(req, res, function (err) {
-    console.log(req.body, req.file);
     if (err) {
       return res
         .status(400)
@@ -135,7 +131,6 @@ module.exports.editWork = function (req, res){
               });  
           }); 
         }else{
-          console.log('no avatar');
           return res
             .status(201)
             .json({status: 'Запись works успешно добавлена', item});
