@@ -185,7 +185,7 @@ module.exports.sendEmail = function (req, res) {
       });
   }
   const transporter = nodemailer.createTransport({
-    "host": smtp.mail.ru,
+    "host": "smtp.mail.ru",
     "port": 465,
     "secure": true,
     "auth": {
