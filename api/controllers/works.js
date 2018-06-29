@@ -11,6 +11,7 @@ module.exports.getWorks = function (req, res){
     works.find().then(items => {
         let works = items.map(elem => {
           elem.picture = `data:${elem.picture.contentType};base64,${elem.picture.data.toString('base64')}`;
+          return elem;
         });
         res.status(200).json({works});
     })
