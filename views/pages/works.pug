@@ -66,23 +66,24 @@ block content
                                     | Посмотреть сайт
             ul.slider-view
                 each item, index in works
-                    if (index == 1)
+                    if (index == 0)
                         li.slider-view__item.active
                             img(src=`${item.picture}`).slider-view__image
                     else
                         li.slider-view__item
                             img(src=`${item.picture}`).slider-view__image
-            .slider-preview
-                .slider-preview__element.slide-prev
-                    .slider-preview__wrapper-img
-                        img(src=`${works[works.length-1].picture}`).slider-preview__image
-                    a(href="#").slider-preview__link.slider-preview__link_prev
-                        +icon('portf_arrow_down' ,"slider-preview__icon slider-preview__icon_down", "works")
-                .slider-preview__element.slide-next
-                    .slider-preview__wrapper-img
-                        img(src=`${works[1].picture}`).slider-preview__image
-                    a(href="#").slider-preview__link.slider-preview__link_next
-                        +icon('portf_arrow_up' ,"slider-preview__icon slider-preview__icon_up", "works")
+            if (works.length > 1)
+                .slider-preview
+                    .slider-preview__element.slide-prev
+                        .slider-preview__wrapper-img
+                            img(src=`${works[works.length-1].picture}`).slider-preview__image
+                        a(href="#").slider-preview__link.slider-preview__link_prev
+                            +icon('portf_arrow_down' ,"slider-preview__icon slider-preview__icon_down", "works")
+                    .slider-preview__element.slide-next
+                        .slider-preview__wrapper-img
+                            img(src=`${works[1].picture}`).slider-preview__image
+                        a(href="#").slider-preview__link.slider-preview__link_next
+                            +icon('portf_arrow_up' ,"slider-preview__icon slider-preview__icon_up", "works")
 
     section.testimonials
         .section-title
