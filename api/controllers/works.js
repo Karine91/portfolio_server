@@ -5,15 +5,12 @@ const nodemailer = require('nodemailer');
 const multer = require('multer');
 const upload = multer({dest: 'public/upload'}).single('file');
 
-function hexToBase64(str) {
-  return window.btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
-}
 
 module.exports.getWorks = function (req, res){
     const works = mongoose.model('works');
     works.find().then(items => {
         let works = items.map(elem => {
-          elem.picture = `data:${elem.picture.contentType};base64,${hexToBase64(elem.picture.data)}`;
+          elem.picture = `data:${elem.picture.contentType};base64,${elem.picture.data.toString('base64')}`;
         });
         res.status(200).json({works});
     })
@@ -47,7 +44,7 @@ module.exports.addWork = function (req, res){
         }
         let pic = {
             data, 
-            contentType: 'image/jpg'
+            contentType: req.file.mimetype
         };
         const Model = mongoose.model('works');
         if(req.body.link.indexOf('http://') == -1 && req.body.link.indexOf('https://') == -1) {
@@ -121,7 +118,7 @@ module.exports.editWork = function (req, res){
               let pic = {
                 picture: {
                   data, 
-                  contentType: 'image/jpg'
+                  contentType: req.file.mimetype
                 }
               };
             //сохраняем запись в базе
