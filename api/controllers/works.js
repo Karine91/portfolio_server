@@ -6,7 +6,7 @@ const multer = require('multer');
 const upload = multer({dest: 'public/upload'}).single('file');
 
 function hexToBase64(str) {
-  return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
+  return window.btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
 }
 
 module.exports.getWorks = function (req, res){
