@@ -9,12 +9,7 @@ const upload = multer({dest: 'public/upload'}).single('file');
 module.exports.getWorks = function (req, res){
     const works = mongoose.model('works');
     works.find().then(items => {
-        let worksData = items.map(elem => {
-          elem.picture = `data:${elem.picture.contentType};base64,${elem.picture.data.toString('base64')}`;
-          return elem;
-        });
-        console.log(worksData);
-        res.status(200).json({works: worksData});
+        res.status(200).json({works: items});
     })
 }
 
@@ -44,10 +39,8 @@ module.exports.addWork = function (req, res){
         if(err) {
           console.log(err);
         }
-        let pic = {
-            data, 
-            contentType: req.file.mimetype
-        };
+        let picture = new Buffer(data).toString('base64');
+        let pic = `data:${req.file.mimetype};base64,${picture}`;
         const Model = mongoose.model('works');
         if(req.body.link.indexOf('http://') == -1 && req.body.link.indexOf('https://') == -1) {
           req.body.link = 'http://' + req.body.link;
@@ -117,12 +110,8 @@ module.exports.editWork = function (req, res){
               if(err) {
                 console.log(err);
               }
-              let pic = {
-                picture: {
-                  data, 
-                  contentType: req.file.mimetype
-                }
-              };
+              let picture = new Buffer(data).toString('base64');
+              let pic = `data:${req.file.mimetype};base64,${picture}`;
             //сохраняем запись в базе
             Model
               .findByIdAndUpdate(id, {$set: pic}, { new: true })

@@ -14,7 +14,7 @@ const mongoose = require('mongoose'),
       type: String
     },
     picture:{
-      data: Buffer, contentType: String
+      type: String
     }
   });
 //просим mongoose сохранить модель для ее дальнейшего использования
