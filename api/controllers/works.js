@@ -5,10 +5,17 @@ const nodemailer = require('nodemailer');
 const multer = require('multer');
 const upload = multer({dest: 'public/upload'}).single('file');
 
+function hexToBase64(str) {
+  return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
+}
+
 module.exports.getWorks = function (req, res){
     const works = mongoose.model('works');
     works.find().then(items => {
-        res.status(200).json({works: items});
+        let works = items.map(elem => {
+          elem.picture = `data:${elem.picture.contentType};base64,${hexToBase64(elem.picture.data)}`;
+        });
+        res.status(200).json({works});
     })
 }
 
@@ -90,7 +97,6 @@ module.exports.editWork = function (req, res){
         .json({status: 'Не удалось загрузить картинку'});
     }
     if (!req.body.name) {
-      // fs.unlink(req.file.path);
       return res
         .status(400)
         .json({status: 'Не указано описание картинки!'});
@@ -108,18 +114,6 @@ module.exports.editWork = function (req, res){
       .findByIdAndUpdate(id, {$set: data}, { new: true } )
       .then(item => {
         if(req.file){
-          
-          // let fileName;
-          // fileName = path.join(upload, files.file.name);
-          // console.log('upload avatar', fileName);
-          // fs.rename(files.file.path, fileName, function (err) {
-          //   if (err) {
-          //       console.log(err);
-          //       fs.unlink(fileName);
-          //       fs.rename(files.file.path, fileName);
-          //   }
-          //   let dir = fileName.substr(fileName.indexOf('\/'));
-          //   console.log(dir);
             fs.readFile(req.file.path, function (err, data) {
               if(err) {
                 console.log(err);

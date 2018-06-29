@@ -68,19 +68,19 @@ block content
                 each item, index in works
                     if (index == 1)
                         li.slider-view__item.active
-                            img(src=`${item.picture}`).slider-view__image
+                            img(src=`${item.picture.data}`).slider-view__image
                     else
                         li.slider-view__item
-                            img(src=`${item.picture}`).slider-view__image
+                            img(src=`${item.picture.data}`).slider-view__image
             .slider-preview
                 .slider-preview__element.slide-prev
                     .slider-preview__wrapper-img
-                        img(src=`${works[works.length-1].picture}`).slider-preview__image
+                        img(src=`${works[works.length-1].picture.data}`).slider-preview__image
                     a(href="#").slider-preview__link.slider-preview__link_prev
                         +icon('portf_arrow_down' ,"slider-preview__icon slider-preview__icon_down", "works")
                 .slider-preview__element.slide-next
                     .slider-preview__wrapper-img
-                        img(src=`${works[1].picture}`).slider-preview__image
+                        img(src=`${works[1].picture.data}`).slider-preview__image
                     a(href="#").slider-preview__link.slider-preview__link_next
                         +icon('portf_arrow_up' ,"slider-preview__icon slider-preview__icon_up", "works")
 
