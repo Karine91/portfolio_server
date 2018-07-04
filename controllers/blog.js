@@ -1,7 +1,8 @@
 const http = require('request');
 
+const heroku = require('../api/heroku.config');
 const apiOptions = {
-  server: "https://karine-portfolio.herokuapp.com"
+  server: heroku.server
 }
 
 

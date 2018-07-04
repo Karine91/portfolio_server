@@ -4,6 +4,7 @@ const path = require('path');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
 const upload = multer({dest: 'public/upload'}).single('file');
+const heroku = require('../heroku.config');
 
 
 module.exports.getWorks = function (req, res){
@@ -184,13 +185,13 @@ module.exports.sendEmail = function (req, res) {
     "port": 465,
     "secure": true,
     "auth": {
-      "user": process.env.MAIL_USER,
-      "pass": process.env.MAIL_PASS
+      "user": heroku.user,
+      "pass": heroku.password
     }
   });
   const mailOptions = {
     from: `"${req.body.name}" <${req.body.email}>`,
-    to: process.env.MAIL_USER,
+    to: heroku.user,
     subject: 'Сообщение с сайта портфолио',
     text: req.body.message.trim().slice(0,500) + `\n Отправлено с: <${req.body.email}>` 
   }

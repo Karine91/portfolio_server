@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-
+const heroku = require('../heroku.config');
 mongoose.Promise = global.Promise;
 
 mongoose
-.connect(process.env.MONGOLAB_URI)
+.connect(heroku.database)
 .catch(e => {
   console.error(e);
   throw e;
