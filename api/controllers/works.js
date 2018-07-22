@@ -164,7 +164,6 @@ module.exports.deleteWork = function (req, res) {
       .findByIdAndRemove(id)
       .then((item) => {
         if (!!item) {
-            fs.unlink(path.join('public', item.picture));
             res.status(200).json({status: 'Запись успешно удалена'});
         } else {
             res.status(404).json({status: 'Запись в БД не обнаружена'});
