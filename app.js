@@ -45,19 +45,6 @@ require('./config/config-passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
-app.use(function(req, res, next) {
-  var allowedOrigins = ['https://karine-portfolio.herokuapp.com', 'http://localhost:3000'];
-  var origin = req.headers.origin;
-  if(allowedOrigins.indexOf(origin) > -1){
-       res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
 app.use(history(
   {
     rewrites: [
@@ -75,6 +62,17 @@ app.use(history(
     logger: console.log.bind(console)
   }
 ));
+
+app.use(function(req, res, next) {
+  var allowedOrigins = ['https://karine-portfolio.herokuapp.com', 'http://localhost:3000'];
+  var origin = req.headers.origin;
+  if(allowedOrigins.indexOf(origin) > -1){
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use('/', index);
 app.use('/api', indexApi);
