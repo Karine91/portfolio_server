@@ -45,6 +45,8 @@ require('./config/config-passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+
 app.use(function(req, res, next) {
   var allowedOrigins = ['https://karine-portfolio.herokuapp.com', 'http://localhost:3000'];
   var origin = req.headers.origin;
@@ -56,10 +58,31 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(history(
+  {
+    rewrites: [
+      {
+        from: /^\/admin\/.*$/,
+        to: '/admin'
+      }, 
+      {
+        from: /^\/.*$/,
+        to: function(context) {
+          return context.parsedUrl.pathname;
+        }
+      }
+    ],
+    logger: console.log.bind(console)
+  }
+));
 
 app.use('/', index);
 app.use('/api', indexApi);
-app.use(history());
+
+
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
