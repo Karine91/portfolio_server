@@ -115,7 +115,7 @@ module.exports.editWork = function (req, res){
             let pic = `data:${req.file.mimetype};base64,${picture}`;
             //сохраняем запись в базе
             Model
-              .findByIdAndUpdate(id, {$set: pic}, { new: true })
+              .findByIdAndUpdate(id, {$set: {picture: pic}}, { new: true })
               .then(itemPic => {
                 return res
                   .status(201)
