@@ -76,7 +76,11 @@ module.exports.addWork = function (req, res){
 
 module.exports.editWork = function (req, res){
   //создаем новую запись блога и передаем в нее поля из формы
+  let uploadDir = 'public/upload';
 
+  if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir);
+  }
   const id = req.params.id;
 
   upload(req, res, function (err) {
@@ -103,12 +107,12 @@ module.exports.editWork = function (req, res){
       .findByIdAndUpdate(id, {$set: data}, { new: true } )
       .then(item => {
         if(req.file){
-            fs.readFile(req.file.path, function (err, data) {
-              if(err) {
-                console.log(err);
-              }
-              let picture = new Buffer(data).toString('base64');
-              let pic = `data:${req.file.mimetype};base64,${picture}`;
+          fs.readFile(req.file.path, function (err, dataFile) {
+            if(err) {
+              console.log(err);
+            }
+            let picture = new Buffer(dataFile).toString('base64');
+            let pic = `data:${req.file.mimetype};base64,${picture}`;
             //сохраняем запись в базе
             Model
               .findByIdAndUpdate(id, {$set: pic}, { new: true })
