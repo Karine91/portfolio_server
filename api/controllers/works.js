@@ -184,7 +184,7 @@ module.exports.sendEmail = function (req, res) {
       });
   }
   const transporter = nodemailer.createTransport({
-    "host": "smtp.mail.ru",
+    "host": "smtp.gmail.com",
     "port": 465,
     "secure": true,
     "auth": {
@@ -204,7 +204,7 @@ module.exports.sendEmail = function (req, res) {
         .status(404)
         .json({
           status: 'error',
-          message: 'При отправке письма произошла ошибка' + error
+          message: 'При отправке письма произошла ошибка ' + error
         });
     }
     return res
